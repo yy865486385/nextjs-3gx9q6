@@ -4,7 +4,7 @@ export default function HomePage() {
   return (
     <div>
       <h1>Welcome to Next.js!</h1>
-      <Button type="link" href="./about">
+      <Button type="link" href="./about/1">
         go to about
       </Button>
       <Button type="primary" danger onClick={click}>
