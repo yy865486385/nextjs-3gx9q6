@@ -6,6 +6,8 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
+import style from '/styles/Layout.module.css';
+
 import React, { useState } from 'react';
 const { Header, Sider, Content } = Layout;
 
@@ -17,7 +19,7 @@ const App = () => {
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="logo" />
+        <div className={style.logo} />
         <Menu
           theme="dark"
           mode="inline"
@@ -51,7 +53,7 @@ const App = () => {
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
-              className: 'trigger',
+              className: style.trigger,
               onClick: () => setCollapsed(!collapsed),
             }
           )}
