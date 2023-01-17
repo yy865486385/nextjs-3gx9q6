@@ -1,4 +1,5 @@
 import { Button } from 'antd';
+import { type } from 'os';
 import React, { useState } from 'react';
 
 // export default function HomePage() {
