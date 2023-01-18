@@ -2,14 +2,9 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import * as Icon from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import style from '/styles/Layout.module.css';
-import { createFromIconfontCN } from '@ant-design/icons';
 
 import React, { useState, ReactNode } from 'react';
 const { Header, Sider, Content } = Layout;
-
-const IconFont = createFromIconfontCN({
-  scriptUrl: 'https://at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',
-});
 
 type MenuItem = {
   key: string;
