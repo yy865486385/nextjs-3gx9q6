@@ -11,7 +11,7 @@ import style from '/styles/Layout.module.css';
 import React, { useState } from 'react';
 const { Header, Sider, Content } = Layout;
 
-const App = () => {
+export default function CustomeLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
@@ -71,5 +71,4 @@ const App = () => {
       </Layout>
     </Layout>
   );
-};
-export default App;
+}
