@@ -1,34 +1,74 @@
-import { Button, Input } from 'antd';
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UploadOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+} from '@ant-design/icons';
+import { Layout, Menu, theme } from 'antd';
+import style from '/styles/Layout.module.css';
+
 import React, { useState } from 'react';
+const { Header, Sider, Content } = Layout;
 
-//function component
-export default function HomePage() {
-  const [btnText, setBtnText] = useState('btnText');
-  const [inputVal, setInputVal] = useState(null);
-
-  function handleClick() {
-    setBtnText(inputVal);
-  }
-
-  function handleInputChange(e) {
-    setInputVal(e.target.value);
-  }
-
+export default function CustomeLayout() {
+  const [collapsed, setCollapsed] = useState(false);
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
   return (
-    <div>
-      <h1>Welcome to Next.js!</h1>
-      <Button type="link" href="./about/1">
-        go to about
-      </Button>
-      <br />
-      <Input
-        placeholder="input new button text"
-        value={inputVal}
-        onChange={(e) => handleInputChange(e)}
-      ></Input>
-      <Button type="primary" onClick={() => handleClick()}>
-        {btnText}
-      </Button>
-    </div>
+    <Layout>
+      <Sider trigger={null} collapsible collapsed={collapsed}>
+        <div className={style.logo} />
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={['1']}
+          items={[
+            {
+              key: '1',
+              icon: <UserOutlined />,
+              label: 'nav 1',
+            },
+            {
+              key: '2',
+              icon: <VideoCameraOutlined />,
+              label: 'nav 2',
+            },
+            {
+              key: '3',
+              icon: <UploadOutlined />,
+              label: 'nav 3',
+            },
+          ]}
+        />
+      </Sider>
+      <Layout className="site-layout">
+        <Header
+          style={{
+            padding: 0,
+            background: colorBgContainer,
+          }}
+        >
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              className: style.trigger,
+              onClick: () => setCollapsed(!collapsed),
+            }
+          )}
+        </Header>
+        <Content
+          style={{
+            margin: '24px 16px',
+            padding: 24,
+            minHeight: 280,
+            background: colorBgContainer,
+          }}
+        >
+          Content
+        </Content>
+      </Layout>
+    </Layout>
   );
 }

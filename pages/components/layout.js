@@ -8,11 +8,42 @@ import {
 import { Layout, Menu, theme } from 'antd';
 import style from '/styles/Layout.module.css';
 
-import React, { useState } from 'react';
+import React, { useState, ReactNode } from 'react';
 const { Header, Sider, Content } = Layout;
 
-export default function CustomeLayout() {
+type Props = {
+  content: ReactNode;
+  menuItems: [
+    {
+      key: string;
+      icon: string;
+      label: string;
+    }
+  ];
+};
+
+export default function CustomeLayout({
+  content,
+  menuItems = [
+    {
+      key: '1',
+      icon: 'UserOutlined',
+      label: 'nav 1',
+    },
+    {
+      key: '2',
+      icon: 'VideoCameraOutlined',
+      label: 'nav 2',
+    },
+    {
+      key: '3',
+      icon: 'UploadOutlined',
+      label: 'nav 3',
+    },
+  ],
+}：Props) {
   const [collapsed, setCollapsed] = useState(false);
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -24,23 +55,7 @@ export default function CustomeLayout() {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={['1']}
-          items={[
-            {
-              key: '1',
-              icon: <UserOutlined />,
-              label: 'nav 1',
-            },
-            {
-              key: '2',
-              icon: <VideoCameraOutlined />,
-              label: 'nav 2',
-            },
-            {
-              key: '3',
-              icon: <UploadOutlined />,
-              label: 'nav 3',
-            },
-          ]}
+          items={menuItems}
         />
       </Sider>
       <Layout className="site-layout">
@@ -62,11 +77,11 @@ export default function CustomeLayout() {
           style={{
             margin: '24px 16px',
             padding: 24,
-            minHeight: 280,
+            // minHeight: 280,
             background: colorBgContainer,
           }}
         >
-          Content
+          {content}
         </Content>
       </Layout>
     </Layout>
