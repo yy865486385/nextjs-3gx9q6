@@ -14,12 +14,12 @@ type MenuItem = {
 };
 
 type Props = {
-  content: JSX.Element;
-  menuItems: Array<MenuItem>;
-  onClick: Function
+  content?: JSX.Element;
+  menuItems?: Array<MenuItem>;
+  onClick?: Function
 };
 
-export default function CustomeLayout(props: Props) {
+export default function HomeLayout(props: Props) {
   const [collapsed, setCollapsed] = useState(false);
 
   const {content,menuItems} = props;

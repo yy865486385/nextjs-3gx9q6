@@ -1,5 +1,8 @@
-import CustomeLayout from './components/layout';
+import MainLayout from './components/MainLayout';
+import HomeLayout from './components/HomeLayout';
 import { useState } from 'react';
+import type { ReactElement } from 'react'
+// import NestedLayout from '../components/nested-layout'
 
 export default function HomePage() {
 
@@ -30,10 +33,9 @@ export default function HomePage() {
     },
   ]
 
-
   return (
     <div>
-      <CustomeLayout 
+      <HomeLayout 
       content={content}
       menuItems={menuItems} 
       onClick={(e)=>handleClcik(e)}
@@ -46,4 +48,12 @@ export default function HomePage() {
     console.log(e)
     setContent(<div>{e.key}</div>)
   }
+}
+
+HomePage.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <MainLayout>
+      {page}
+    </MainLayout>
+  )
 }
