@@ -3,21 +3,22 @@ import * as Icon from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import style from '/styles/Layout.module.css';
 
-import React, { useState, ReactNode, Children } from 'react';
+import React, { useState } from 'react';
 const { Header, Sider, Content } = Layout;
 
 type MenuItem = {
   key: string;
   icon: string;
   label: string;
-  children?: Array<MenuItem>;
+  path?: string;
+  children?: MenuItem[];
 };
 
 type Props = {
   children?: JSX.Element;
 };
 
-export default function HomeLayout(props: Props) {
+export default function HomeLayout({children}: Props) {
   const [collapsed, setCollapsed] = useState(false);
 
   /* get menuData from backend
@@ -27,6 +28,12 @@ export default function HomeLayout(props: Props) {
   */
   const menuItems = [
     {
+      key: '0',
+      icon: 'FundOutlined',
+      label: 'dashborad',
+      path: '/'
+    },
+    {
       key: '1',
       icon: 'UploadOutlined',
       label: 'nav 1',
@@ -34,7 +41,8 @@ export default function HomeLayout(props: Props) {
         {
           key: '1.1',
           icon: '',
-          label: 'nav 1.1',
+          label: 'card',
+          path: '/card'
         },
       ],
     },
@@ -51,24 +59,19 @@ export default function HomeLayout(props: Props) {
   ]
 
 
-  const {children} = props;
-
-  function getMenuNode(items: Array<MenuItem>) {
+  function getMenuNode(items: MenuItem[]) {
     return items.map((item) => {
       if (!item.children) {
         return {
           key: item.key,
-          icon:()=> React.createElement(Icon[item.icon], {
-            style: { fontSize: '16px' },
-          }),
+          icon: React.createElement(Icon[item.icon]),
           label: item.label,
+          path: item.path
         };
       } else {
         return {
           key: item.key,
-          icon: ()=> React.createElement(Icon[item.icon], {
-            style: { fontSize: '16px' },
-          }),
+          icon: React.createElement(Icon[item.icon]),
           label: item.label,
           children: getMenuNode(item.children),
         };
@@ -76,7 +79,11 @@ export default function HomeLayout(props: Props) {
     });
   }
 
-  const newMenus = getMenuNode(menuItems);
+  function navigate(item){
+    alert(item.path)
+  }
+
+  const menuTrees = getMenuNode(menuItems);
 
   const {
     token: { colorBgContainer },
@@ -89,7 +96,8 @@ export default function HomeLayout(props: Props) {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={['1']}
-          items={newMenus}
+          items={menuTrees}
+          onClick={(item)=>navigate(item)}
         />
       </Sider>
       <Layout className="site-layout">
