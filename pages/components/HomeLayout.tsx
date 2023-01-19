@@ -2,9 +2,12 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import * as Icon from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import style from '/styles/Layout.module.css';
+import React, { useState,Fragment } from 'react';
+import Link from 'next/link';
+import cloneDeep from 'lodash';
 
-import React, { useState } from 'react';
 const { Header, Sider, Content } = Layout;
+const { SubMenu } = Menu
 
 type MenuItem = {
   key: string;
@@ -50,14 +53,47 @@ export default function HomeLayout({children}: Props) {
       key: '2',
       icon: 'UserOutlined',
       label: 'nav 2',
+      path: ''
     },
     {
       key: '3',
       icon: 'VideoCameraOutlined',
       label: 'nav 3',
+      path: ''
     },
   ]
 
+  function generateMenus(data) {
+    return data.map(item => {
+      if (item.children) {
+        return (
+          <SubMenu
+            key={item.key}
+            title={
+              <Fragment>
+                {item.icon && Icon[item.icon]}
+                <span>{item.label}</span>
+              </Fragment>
+            }
+          >
+            {generateMenus(item.children)}
+          </SubMenu>
+        )
+      }
+      return (
+        <Menu.Item key={item.key}>
+          <Link href={item.path || '#'}>
+            {item.icon && Icon[item.icon]}
+            <span>{item.label}</span>
+          </Link>
+        </Menu.Item>
+      )
+    })
+  }
+
+  function onOpenChange(openKeys){
+
+  }
 
   function getMenuNode(items: MenuItem[]) {
     return items.map((item) => {
@@ -79,15 +115,13 @@ export default function HomeLayout({children}: Props) {
     });
   }
 
-  function navigate(item){
-    alert(item.path)
-  }
 
   const menuTrees = getMenuNode(menuItems);
 
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -97,8 +131,9 @@ export default function HomeLayout({children}: Props) {
           mode="inline"
           defaultSelectedKeys={['1']}
           items={menuTrees}
-          onClick={(item)=>navigate(item)}
-        />
+          // onOpenChange={(openKeys)=>onOpenChange(openKeys)}
+        >
+        </Menu>
       </Sider>
       <Layout className="site-layout">
         <Header
