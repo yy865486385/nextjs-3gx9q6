@@ -3,7 +3,7 @@ import * as Icon from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import style from '/styles/Layout.module.css';
 
-import React, { useState, ReactNode } from 'react';
+import React, { useState, ReactNode, Children } from 'react';
 const { Header, Sider, Content } = Layout;
 
 type MenuItem = {
@@ -14,15 +14,44 @@ type MenuItem = {
 };
 
 type Props = {
-  content?: JSX.Element;
-  menuItems?: Array<MenuItem>;
-  onClick?: Function
+  children?: JSX.Element;
 };
 
 export default function HomeLayout(props: Props) {
   const [collapsed, setCollapsed] = useState(false);
 
-  const {content,menuItems} = props;
+  /* get menuData from backend
+  const { data, error } = useSWR('/api/navigation', fetcher)
+  if (error) return <div>Failed to load</div>
+  if (!data) return <div>Loading...</div>
+  */
+  const menuItems = [
+    {
+      key: '1',
+      icon: 'UploadOutlined',
+      label: 'nav 1',
+      children: [
+        {
+          key: '1.1',
+          icon: '',
+          label: 'nav 1.1',
+        },
+      ],
+    },
+    {
+      key: '2',
+      icon: 'UserOutlined',
+      label: 'nav 2',
+    },
+    {
+      key: '3',
+      icon: 'VideoCameraOutlined',
+      label: 'nav 3',
+    },
+  ]
+
+
+  const {children} = props;
 
   function getMenuNode(items: Array<MenuItem>) {
     return items.map((item) => {
@@ -61,7 +90,6 @@ export default function HomeLayout(props: Props) {
           mode="inline"
           defaultSelectedKeys={['1']}
           items={newMenus}
-          onClick={(e)=>props.onClick(e)}
         />
       </Sider>
       <Layout className="site-layout">
@@ -87,7 +115,7 @@ export default function HomeLayout(props: Props) {
             background: colorBgContainer,
           }}
         >
-          {content}
+          {children}
         </Content>
       </Layout>
     </Layout>
