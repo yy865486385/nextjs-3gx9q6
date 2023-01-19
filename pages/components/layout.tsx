@@ -14,45 +14,22 @@ type MenuItem = {
 };
 
 type Props = {
-  content: ReactNode;
+  content: JSX.Element;
   menuItems: Array<MenuItem>;
+  onClick: Function
 };
 
-export default function CustomeLayout({
-  content,
-  menuItems = [
-    {
-      key: '1',
-      icon: 'UploadOutlined',
-      label: 'nav 1',
-      children: [
-        {
-          key: '1.1',
-          icon: '',
-          label: 'nav 1.1',
-        },
-      ],
-    },
-    {
-      key: '2',
-      icon: 'UserOutlined',
-      label: 'nav 2',
-    },
-    {
-      key: '3',
-      icon: 'VideoCameraOutlined',
-      label: 'nav 3',
-    },
-  ],
-}: Props) {
+export default function CustomeLayout(props: Props) {
   const [collapsed, setCollapsed] = useState(false);
+
+  const {content,menuItems} = props;
 
   function getMenuNode(items: Array<MenuItem>) {
     return items.map((item) => {
       if (!item.children) {
         return {
           key: item.key,
-          icon: React.createElement(Icon[item.icon], {
+          icon:()=> React.createElement(Icon[item.icon], {
             style: { fontSize: '16px' },
           }),
           label: item.label,
@@ -60,7 +37,7 @@ export default function CustomeLayout({
       } else {
         return {
           key: item.key,
-          icon: React.createElement(Icon[item.icon], {
+          icon: ()=> React.createElement(Icon[item.icon], {
             style: { fontSize: '16px' },
           }),
           label: item.label,
@@ -71,8 +48,6 @@ export default function CustomeLayout({
   }
 
   const newMenus = getMenuNode(menuItems);
-
-  console.log(newMenus);
 
   const {
     token: { colorBgContainer },
@@ -86,6 +61,7 @@ export default function CustomeLayout({
           mode="inline"
           defaultSelectedKeys={['1']}
           items={newMenus}
+          onClick={(e)=>props.onClick(e)}
         />
       </Sider>
       <Layout className="site-layout">
